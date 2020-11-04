@@ -31,3 +31,14 @@ data_mammals_ecoregions <- function() {
   readr::read_csv(here::here("data", "wwf-wildfinder", "wildfinder-ecoregions_species.csv"))
 
 }
+
+#' Get pantheria data
+#'
+#' @return data.frame with info on pantheria
+#' @export
+#'
+data_pantheria <- function() {
+
+  readr::read_delim(here::here("data", "pantheria-traits", "PanTHERIA_1-0_WR05_Aug2008.txt"),delim='\t')
+
+}

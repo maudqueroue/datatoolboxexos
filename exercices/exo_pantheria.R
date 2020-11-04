@@ -1,7 +1,7 @@
 rm(list= ls())
 
 # Read in data-------------------------------------
-pantheria <- readr::read_delim(here::here("data", "pantheria-traits", "PanTHERIA_1-0_WR05_Aug2008.txt"),delim='\t')
+pantheria <- datatoolboxexos::data_pantheria()
 
 # Tidy the dataset---------------------------------
 dat <- pantheria %>%
