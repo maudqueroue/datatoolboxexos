@@ -23,4 +23,5 @@ Imports:
     sf,
     drake,
     fishualize,
-    visNetwork
+    visNetwork,
+    rnaturalearth
