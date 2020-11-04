@@ -4,3 +4,8 @@
 ^README-.*\.png$
 ^CONDUCT\.md$
 ^CONTRIBUTING\.md$
+^\.drake$
+^_drake\.R$
+^make\.R$
+^output$
+^text$

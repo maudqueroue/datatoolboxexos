@@ -19,4 +19,8 @@ Imports:
     magrittr,
     dplyr,
     forcats,
-    ggplot2
+    ggplot2,
+    sf,
+    drake,
+    fishualize,
+    visNetwork

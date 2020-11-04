@@ -14,4 +14,11 @@ devtools::install_deps()
 devtools::load_all()
 
 # ----- Knit exo dplyr
-rmarkdown::render(here::here("exercices","exo_dplyr.Rmd"))
+#rmarkdown::render(here::here("exercices","exo_dplyr.Rmd"))
+
+#------ drake
+## Execute plan
+drake::r_make()
+## Visualize
+drake::r_vis_drake_graph(targets_only = TRUE)
+drake::r_vis_drake_graph()
