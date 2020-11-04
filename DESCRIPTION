@@ -2,10 +2,10 @@ Package: datatoolboxexos
 Title: Data and Code for the CESAB Datatoolbox Exercices
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "Francois",
-           family = "Guilhaumon",
+    person(given = "Maud",
+           family = "Queroue",
            role = c("aut", "cre"),
-           email = "francois.guilhaumon@ird.fr")
+           email = "maud.queroue@gmail.com")
 Description: Provides Data and Code for the CESAB Datatoolbox Exercices
 License: MIT + file LICENSE
 ByteCompile: true
