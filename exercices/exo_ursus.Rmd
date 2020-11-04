@@ -1,0 +1,75 @@
+---
+title: "Exo Ursus"
+author: "maud.queroue@gmail.com"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+Dans cet exercice nous allons utiliser le package `dplyr` pour nous instruire sur la biogéographie des ours.
+
+# Données
+
+On utilise la base [**WWF Wildfinder**](https://www.worldwildlife.org/pages/wildfinder-database)
+
+La base de données WildFinder du WWF contient des données de présence/absence pour les amphibiens, reptiles, oiseaux et mammifères terrestres du monde entier au niveau des écorégions terrestres. Seul le sous-ensemble des mammifères est disponible dans ce dépôt avec 4936 espèces. Les données, préalablement nettoyées, sont structurées de la manière suivante dans le dossier `data/wwf-wildfinder/` :
+
+  - `wildfinder-mammals_list.csv` : liste taxonomique des 4936 espèces de mammifères du monde entier
+  - `wildfinder-ecoregions_list.csv` : liste des 798 écorégions terrestres définies par le WWF
+  - `wildfinder-ecoregions_species.csv` : correspondances entre les espèces et les écorégions
+
+# Analyses
+
+- Histogramme de la distribution du nombre d'espèces de mammifères par écorégion.
+
+```{r explo_histo}
+#read data
+eco_list <- datatoolboxexos::data_ecoregion()
+sp_list <- datatoolboxexos::data_mammals()
+sp_eco  <- datatoolboxexos::data_mammals_ecoregions()
+library(tidyverse)
+
+ursus <- sp_list %>%
+  dplyr::filter(family   == "Ursidae") %>%                     # Sélection des Ursidés
+  dplyr::filter(sci_name != "Ursus malayanus") %>%             # Suppression du synonyme
+  dplyr::select(species_id, sci_name, common)
+
+## Première jointure
+ursus_eco <- ursus %>%
+  dplyr::left_join(sp_eco)
+
+## Seconde jointure
+ursus_eco <- ursus_eco %>%
+  dplyr::left_join(eco_list, by = "ecoregion_id")
+
+## Nombre de royaumes où chaque espèce est retrouvée
+realm_ursus <- ursus_eco %>%
+  dplyr::group_by(sci_name) %>%
+  dplyr::summarise(n_realms     = dplyr::n_distinct(realm))
+
+## Nombre de biomes où chaque espèce est retrouvée
+biome_ursus <- ursus_eco %>%
+  dplyr::group_by(sci_name) %>%
+  dplyr::summarise(n_biomes     = dplyr::n_distinct(biome))
+
+## Nombre d'écorégions où chaque espèce est retrouvée
+eco_ursus <- ursus_eco %>%
+  dplyr::group_by(sci_name) %>%
+  dplyr::summarise(n_ecoregions = dplyr::n_distinct(ecoregion))
+
+## Combinons toutes les informations
+realm_ursus %>%
+  dplyr::left_join(biome_ursus, by = "sci_name") %>%
+  dplyr::left_join(eco_ursus, by = "sci_name") %>%
+  dplyr::left_join(ursus, by = "sci_name") %>%
+  dplyr::select(sci_name, common, n_realms, n_biomes, n_ecoregions) %>%
+  dplyr::arrange(desc(n_ecoregions))
+
+```
